@@ -1,0 +1,454 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>net.anotheria</groupId>
+		<artifactId>parent</artifactId>
+		<version>2.13</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.anotheria</groupId>
+	<artifactId>pk-test</artifactId>
+	<name>pk-test</name>
+	<packaging>war</packaging>
+	<version>1.0.0-SNAPSHOT</version>
+	<description>pk-test</description>
+
+	<properties>
+
+		<source-version>1.8</source-version>
+		<target-version>1.8</target-version>
+
+		<portalkit-version>1.4.0-SNAPSHOT</portalkit-version>
+		<hibernate.version>4.3.8.Final</hibernate.version>
+
+		<distributeme-version>2.3.8</distributeme-version>
+
+		<moskito-version>2.10.1</moskito-version>
+		<!--<moskito-plugins-version>1.0.0</moskito-plugins-version>-->
+		<moskito-central-version>1.1.2</moskito-central-version>
+		<moskito-control-agent-version>1.2.2</moskito-control-agent-version>
+
+		<ano-configureme-version>2.4.0</ano-configureme-version>
+
+
+		<logback-version>1.0.13</logback-version>
+		<aspectj-version>1.8.8</aspectj-version>
+		<aspectj-maven-plugin.version>1.8</aspectj-maven-plugin.version>
+		<aspectj-maven-plugin.complianceLevel>1.8</aspectj-maven-plugin.complianceLevel>
+
+		<jersey-version>1.19.4</jersey-version>
+		
+		<spring-version>4.3.13.RELEASE</spring-version>
+		<spring-data-jpa-version>1.9.4.RELEASE</spring-data-jpa-version>
+		
+
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>2.5</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>1.4.3</version>
+			</dependency>
+			<dependency>
+				<groupId>postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>8.2-504.jdbc3</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>1.10.19</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>2.8.5</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- External dependencies: START -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<!-- heidelpay transaction processing -->
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>${jersey-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-multipart</artifactId>
+			<version>${jersey-version}</version>
+		</dependency>
+		<!-- jersey -->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>${jersey-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-servlet</artifactId>
+			<version>${jersey-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-json</artifactId>
+			<version>${jersey-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback-version}</version>
+		</dependency>
+		<!-- External dependencies: END -->
+
+		<dependency>
+			<groupId>net.anotheria</groupId>
+			<artifactId>configureme</artifactId>
+			<version>${ano-configureme-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.anotheria</groupId>
+			<artifactId>moskito-core</artifactId>
+			<version>${moskito-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.anotheria</groupId>
+			<artifactId>moskito-aop</artifactId>
+			<version>${moskito-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.anotheria</groupId>
+			<artifactId>moskito-webui</artifactId>
+			<version>${moskito-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.moskito</groupId>
+			<artifactId>moskito-central-rest-connector</artifactId>
+			<version>${moskito-central-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.moskito</groupId>
+			<artifactId>moskito-control-agent-http-endpoint</artifactId>
+			<version>${moskito-control-agent-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>portalkit</groupId>
+			<artifactId>services-common</artifactId>
+			<version>${portalkit-version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.quartz-scheduler</groupId>
+					<artifactId>quartz</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.mongodb</groupId>
+					<artifactId>mongodb-driver</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.mongodb</groupId>
+					<artifactId>mongodb-driver-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>de.flapdoodle.embed</groupId>
+					<artifactId>de.flapdoodle.embed.mongo</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.mongodb.morphia</groupId>
+					<artifactId>morphia</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>portalkit</groupId>
+			<artifactId>services-accountservice</artifactId>
+			<version>${portalkit-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>portalkit</groupId>
+			<artifactId>services-authenticationservice</artifactId>
+			<version>${portalkit-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>portalkit</groupId>
+			<artifactId>api-common</artifactId>
+			<version>1.4.0-SNAPSHOT</version>
+		</dependency>
+		<!-- System dependencies: END -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${spring-data-jpa-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>janino</artifactId>
+			<version>2.7.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit-dep</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+		</dependency>
+
+		<!-- Hibernate: START -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.flyway</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>2.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.bitwalker</groupId>
+			<artifactId>UserAgentUtils</artifactId>
+			<version>1.20</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<!-- Hibernate: END -->
+
+	</dependencies>
+
+	<build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.sql</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>${source-version}</source>
+					<target>${target-version}</target>
+					<compilerArguments>
+						<processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
+					</compilerArguments> 
+				</configuration>
+			</plugin>
+			<!--<plugin>
+				<groupId>org.bsc.maven</groupId>
+				<artifactId>maven-processor-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>process</id>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<phase>generate-sources</phase>
+						<configuration>
+							<processors>
+								<processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
+							</processors>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-jpamodelgen</artifactId>
+						<version>${hibernate-version}</version>
+					</dependency>
+				</dependencies>
+			</plugin> -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>aspectj-maven-plugin</artifactId>
+				<version>${aspectj-maven-plugin.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjrt</artifactId>
+						<version>${aspectj-version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjtools</artifactId>
+						<version>${aspectj-version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<aspectLibraries>
+						<aspectLibrary>
+							<groupId>net.anotheria</groupId>
+							<artifactId>moskito-aop</artifactId>
+						</aspectLibrary>
+					</aspectLibraries>
+					<complianceLevel>${aspectj-maven-plugin.complianceLevel}</complianceLevel>
+					<source>${source-version}</source>
+					<target>${target-version}</target>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine>-Xmx1024m</argLine>
+			          <systemProperties>
+			            <property>
+			              <name>org.jboss.logging.provider</name>
+			              <value>slf4j</value>
+			            </property>
+			          </systemProperties>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<warName>ROOT</warName>
+					<webResources>
+						<resource>
+							<directory>${basedir}/src/main/java</directory>
+							<includes>
+								<include>**/*.jsp</include>
+							</includes>
+						</resource>
+<!--						<resource>
+							<directory>${project.build.directory}/tmp</directory>
+						</resource> -->
+					</webResources>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<configuration>
+					<artifactItems>
+						<artifactItem>
+							<groupId>net.anotheria</groupId>
+							<artifactId>moskito-webui</artifactId>
+							<version>${moskito-version}</version>
+							<type>jar</type>
+							<overWrite>true</overWrite>
+							<outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}</outputDirectory>
+							<includes>moskito/**,**/*.jsp</includes>
+						</artifactItem>
+					</artifactItems>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+<!--			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<overwrite>true</overwrite>
+							<outputDirectory>${project.build.directory}/classes</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${profile.resources.directory}</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin> -->
+		</plugins>
+	</build>
+</project>

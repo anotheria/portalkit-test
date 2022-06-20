@@ -1,0 +1,6 @@
+{
+    "driver": "$<pk-jdbc.driver>",
+    "url": "$<pk-jdbc.url>",
+    "username": "$<pk-jdbc.username>",
+    "password": "$<pk-jdbc.password>"
+}

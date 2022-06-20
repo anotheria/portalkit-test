@@ -1,0 +1,112 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+    <display-name>M2MStatisticTool</display-name>
+
+    <filter>
+        <filter-name>StatisticAppFilter</filter-name>
+        <filter-class>net.anotheria.baldur.statistic.shared.StatisticAppFilter</filter-class>
+        <init-param>
+            <param-name>path</param-name>
+            <param-value>/statistic/</param-value>
+        </init-param>
+        <init-param>
+            <param-name>actionFactory</param-name>
+            <param-value>net.anotheria.maf.action.MonitoringActionFactory</param-value>
+        </init-param>
+        <init-param>
+            <param-name>configureByAnnotations</param-name>
+            <param-value>net.anotheria.baldur.statistic</param-value>
+        </init-param>
+    </filter>
+
+    <filter>
+        <filter-name>APIFilter</filter-name>
+        <filter-class>net.anotheria.anoplass.api.filter.APIFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>MoskitoUIFilter</filter-name>
+        <filter-class>net.anotheria.moskito.webui.MoskitoUIFilter</filter-class>
+        <async-supported>true</async-supported>
+        <init-param>
+            <param-name>path</param-name>
+            <param-value>/moskito-inspect/</param-value>
+        </init-param>
+    </filter>
+
+    <filter>
+        <filter-name>MenuFilter</filter-name>
+        <filter-class>net.anotheria.baldur.statistic.shared.StatisticMenuFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>JourneyFilter</filter-name>
+        <filter-class>net.anotheria.moskito.web.filters.JourneyFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>JourneyFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>MenuFilter</filter-name>
+        <url-pattern>/</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>APIFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>StatisticAppFilter</filter-name>
+        <url-pattern>/statistic/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>MoskitoUIFilter</filter-name>
+        <url-pattern>/moskito-inspect/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>JerseyServletContainer</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>net.anotheria.baldur.statistic</param-value>
+        </init-param>
+        <init-param>
+            <param-name>com.sun.jersey.config.feature.DisableXmlSecurity</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>JerseyServletContainer</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+
+
+    <listener>
+        <listener-class>
+            net.anotheria.baldur.statistic.shared.ContextInitializer
+        </listener-class>
+    </listener>
+    <listener>
+        <listener-class>
+            net.anotheria.anoplass.api.listener.APISessionListener
+        </listener-class>
+    </listener>
+
+</web-app>
